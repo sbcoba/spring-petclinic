@@ -7,7 +7,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 
     <display-name>Spring PetClinic</display-name>
     <description>Spring PetClinic sample application</description>
-    
+
     <context-param>
         <param-name>spring.profiles.active</param-name>
         <param-value>jpa</param-value>
@@ -31,9 +31,22 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		- Location of the XML file that defines the root application context.
 		- Applied by ContextLoaderListener.
 	-->
+	<context-param>
+	    <param-name>contextClass</param-name>
+	    <param-value>
+	        org.springframework.web.context.support.AnnotationConfigWebApplicationContext
+	    </param-value>
+	</context-param>
+	<context-param>
+	    <param-name>contextConfigLocation</param-name>
+	    <param-value>com.acme.AppConfig</param-value>
+	</context-param>
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>classpath:spring/business-config.xml, classpath:spring/tools-config.xml</param-value>
+        <param-value>
+        	org.springframework.samples.petclinic.config.BusinessConfig
+        	org.springframework.samples.petclinic.config.ToolsConfig
+        </param-value>
     </context-param>
 
     <listener>
@@ -46,10 +59,18 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
     <servlet>
         <servlet-name>petclinic</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-        <init-param>
-            <param-name>contextConfigLocation</param-name>
-            <param-value>classpath:spring/mvc-core-config.xml</param-value>
-        </init-param>
+	    <init-param>
+	        <param-name>contextClass</param-name>
+	        <param-value>
+	            org.springframework.web.context.support.AnnotationConfigWebApplicationContext
+	        </param-value>
+	    </init-param>
+	    <init-param>
+	        <param-name>contextConfigLocation</param-name>
+	        <param-value>
+	            org.springframework.samples.petclinic.config.MvcConfig
+	        </param-value>
+	    </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
 
@@ -68,7 +89,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         <servlet-name>dandelionServlet</servlet-name>
         <url-pattern>/dandelion-assets/*</url-pattern>
     </servlet-mapping>
-   
+
     <!-- Dandelion filter definition and mapping -->
     <filter>
         <filter-name>dandelionFilter</filter-name>
@@ -91,8 +112,8 @@ see here: http://static.springsource.org/spring/docs/current/spring-framework-re
         <filter-name>httpMethodFilter</filter-name>
         <servlet-name>petclinic</servlet-name>
     </filter-mapping>
-    
-    <!-- used to provide the ability to enter Chinese characters inside the Owner Form -->    
+
+    <!-- used to provide the ability to enter Chinese characters inside the Owner Form -->
     <filter>
 	    <filter-name>encodingFilter</filter-name>
 	    <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -105,12 +126,12 @@ see here: http://static.springsource.org/spring/docs/current/spring-framework-re
 	        <param-value>true</param-value>
 	    </init-param>
 	 </filter>
-	
+
 	 <filter-mapping>
 	    <filter-name>encodingFilter</filter-name>
 	    <url-pattern>/*</url-pattern>
 	 </filter-mapping>
- 
+
      <!-- Dandelion-Datatables filter, used for basic export -->
      <filter>
         <filter-name>datatables</filter-name>
@@ -120,10 +141,10 @@ see here: http://static.springsource.org/spring/docs/current/spring-framework-re
         <filter-name>datatables</filter-name>
         <url-pattern>/*</url-pattern>
      </filter-mapping>
-    
+
     <!--  	No need for welcome-file declaration here.
-    		See inside spring/mvc-core-config.xml : 
-    		<mvc:view-controller path="/" view-name="welcome" /> 
+    		See inside spring/mvc-core-config.xml :
+    		<mvc:view-controller path="/" view-name="welcome" />
     -->
 
 </web-app>
