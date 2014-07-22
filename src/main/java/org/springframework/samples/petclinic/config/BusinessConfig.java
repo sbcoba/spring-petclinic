@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
@@ -133,7 +134,11 @@ public class BusinessConfig {
     public static class JpaConfig {}
 
     @Profile("spring-data-jpa")
-    @ComponentScan("org.springframework.samples.petclinic.repository.springdatajpa")
+    @EnableJpaRepositories(
+            basePackages = "org.springframework.samples.petclinic.repository.springdatajpa",
+            transactionManagerRef="transactionManager",
+            entityManagerFactoryRef="localContainerEntityManagerFactoryBean"
+    )
     @Configuration
     public static class SpringDataJpaConfig {}
 }
